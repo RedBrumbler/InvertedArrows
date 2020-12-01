@@ -19,5 +19,7 @@ void SaveConfig(bool value)
 
 bool LoadConfig()
 {
-    return (getConfig().config.HasMember("Enable Inverted Arrows") && getConfig().config["Enable Inverted Arrows"].GetBool());
+    bool enabled = (getConfig().config.HasMember("Enable Inverted Arrows") && getConfig().config["Enable Inverted Arrows"].GetBool());
+    if (enabled) setenv("InvertedArrowsEnabled", "yes", 1);
+    return enabled;
 }

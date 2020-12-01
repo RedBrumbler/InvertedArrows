@@ -19,6 +19,8 @@
 #include "questui/shared/CustomTypes/Components/ExternalComponents.hpp"
 #include "questui/shared/CustomTypes/Components/Backgroundable.hpp"
 
+#include <cstdlib>
+
 using namespace QuestUI;
 using namespace UnityEngine;
 using namespace UnityEngine::UI;
@@ -35,12 +37,18 @@ void InvertedArrows::SettingsViewController::DidActivate(bool firstActivation, b
     {
         get_gameObject()->AddComponent<Touchable*>();
         GameObject* container = BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
-        BeatSaberUI::CreateToggle(container->get_transform(), "Enable Inverted Arrows", enabled, il2cpp_utils::MakeDelegate<UnityAction_1<bool>*>(classof(UnityAction_1<bool>*), this, +[](SettingsViewController* view, bool value) { enabled = value; }));
+        BeatSaberUI::CreateToggle(container->get_transform(), "Enable Inverted Arrows", enabled, il2cpp_utils::MakeDelegate<UnityAction_1<bool>*>(classof(UnityAction_1<bool>*), this, +[](SettingsViewController* view, bool value) { 
+                enabled = value;
+                SaveConfig(enabled);
+                if (enabled)
+                {
+                    setenv("InvertedArrowsEnabled", "bigfatdicks", 1);
+                }
+                else
+                {
+                    unsetenv("InvertedArrowsEnabled");
+                }
+            }));
         
     }
-}
-
-void InvertedArrows::SettingsViewController::DidDeactivate(bool removedFromHierarchy, bool screenSystemDisabling)
-{
-    SaveConfig(enabled);
 }
