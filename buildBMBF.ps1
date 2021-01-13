@@ -7,4 +7,4 @@ if (-not ($PSVersionTable.PSEdition -eq "Core")) {
 }
 
 & $buildScript NDK_PROJECT_PATH=$PSScriptRoot APP_BUILD_SCRIPT=$PSScriptRoot/Android.mk NDK_APPLICATION_MK=$PSScriptRoot/Application.mk
-Compress-Archive -Path "./cover.png","./libs/arm64-v8a/libinvertedarrows.so","./bmbfmod.json","./extern/libbeatsaber-hook_0_8_4.so","./extern/libbs-utils.so","./extern/libcustom-types.so","./extern/libquestui.so" -DestinationPath "./InvertedArrows.zip" -Update
+Compress-Archive -Path "./cover.png","./libs/arm64-v8a/libinvertedarrows.so","./bmbfmod.json","./extern/libbeatsaber-hook_1_0_9.so","./extern/libbs-utils.so","./extern/libcustom-types.so","./extern/libquestui.so" -DestinationPath "./InvertedArrows.zip" -Update
