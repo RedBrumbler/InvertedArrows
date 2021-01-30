@@ -1,7 +1,7 @@
 {
   "id": "InvertedArrows",
   "name": "Inverted Arrows",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "icon": "cover.png",
   "coverImageFilename": "cover.png",
   "author": "RedBrumbler",
@@ -9,7 +9,7 @@
     "Inverts all arrow directions on a beatmap"
   ],
   "category": "Gameplay",
-  "gameVersion": "1.13.0",
+  "gameVersion": "1.13.2",
   "platform": "Quest",
   "components": [
     {
@@ -24,25 +24,7 @@
     {
       "type": "HookModLibrary",
       "installAction": {
-        "installLibraryFile": "libbeatsaber-hook_1_0_9.so"
-      }
-    },
-    {
-      "type": "HookModLibrary",
-      "installAction": {
-        "installLibraryFile": "libbs-utils.so"
-      }
-    },
-    {
-      "type": "HookModLibrary",
-      "installAction": {
-        "installLibraryFile": "libcustom-types.so"
-      }
-    },
-    {
-      "type": "HookModLibrary",
-      "installAction": {
-        "installLibraryFile": "libquestui.so"
+        "installLibraryFile": "libbeatsaber-hook_1_0_12.so"
       }
     }
   ]

@@ -25,7 +25,7 @@ void SaveConfig()
     getConfig().config.AddMember("upLeftDirection", config.upLeftDirection, allocator);
     getConfig().config.AddMember("upRightDirection", config.upRightDirection, allocator);
     getConfig().config.AddMember("downLeftDirection", config.downLeftDirection, allocator);
-    getConfig().config.AddMember("downRightDirection", config.downLeftDirection, allocator);
+    getConfig().config.AddMember("downRightDirection", config.downRightDirection, allocator);
     getConfig().Write();
 }
 

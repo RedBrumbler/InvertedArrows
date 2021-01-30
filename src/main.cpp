@@ -106,10 +106,11 @@ int layerLookup[3] = {2, 1, 0};
 
 MAKE_HOOK_OFFSETLESS(BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData, GlobalNamespace::BeatmapObjectSpawnMovementData::NoteSpawnData, GlobalNamespace::BeatmapObjectSpawnMovementData* self, GlobalNamespace::NoteData* noteData)
 {
-    if (config.alsoFlipBombY && noteData->get_colorType() == -1)
+    if (config.enabled && config.alsoFlipBombY && noteData->get_colorType() == -1)
         noteData->set_noteLineLayer(layerLookup[noteData->get_noteLineLayer().value]);
     return BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData(self, noteData);
 }
+
 extern "C" void setup(ModInfo& info) 
 {
     info.id = ID;
