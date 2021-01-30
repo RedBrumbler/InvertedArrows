@@ -10,4 +10,5 @@ if (-not ($PSVersionTable.PSEdition -eq "Core")) {
 Compress-Archive -Path  "./cover.png",`
                         "./libs/arm64-v8a/libinvertedarrows.so",`
                         "./bmbfmod.json",`
+                        "./extern/libbs-utils.so",`
                         "./extern/libbeatsaber-hook_1_0_12.so" -DestinationPath "./InvertedArrows.zip" -Update
