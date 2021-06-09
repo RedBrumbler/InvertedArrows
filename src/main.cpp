@@ -32,8 +32,9 @@
 
 ModInfo modInfo;
 extern config_t config;
-bool debug = true;
 std::string sceneLoadedName = "";
+
+using namespace UnityEngine;
 
 std::string gameCore = "GameCore";
 
@@ -47,15 +48,34 @@ Logger& getLogger() {
 
 #define INFO_LOG(value...)  getLogger().WithContext("INFO").info(value)
 #define ERROR_LOG(value...) getLogger().WithContext("ERROR").error(value)
-
-#if MODDEBUG
-#define DEBUG_LOG(value...) if (debug) getLogger().WithContext("DEBUG").debug(value)
-#else
-#define DEBUG_LOG(value...)
-#endif
+#define DEBUG_LOG(value...) getLogger().WithContext("DEBUG").debug(value)
 
 unsigned char directionLookup[8] = {1, 0, 3, 2, 7, 6, 5, 4};
 
+MAKE_HOOK_OFFSETLESS(GameNoteController_Init, void, GlobalNamespace::GameNoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, Vector3 moveStartPos, Vector3 moveEndPos, Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, GlobalNamespace::GameNoteController_GameNoteType gameNoteType, float cutDirectionAngleOffset, float cutAngleTolerance, float uniformScale)
+{
+    DEBUG_LOG("gamenotecontroller init called! direction is %d", noteData->cutDirection.value);
+    int value = noteData->cutDirection.value;
+    if (!(value & 0b1000) && config.enabled) 
+    {
+        DEBUG_LOG("value was below 8, inverting direction");
+        int newValue = config.useCustomDirections ? config.directions[value] : directionLookup[value];
+        noteData->ChangeNoteCutDirection(GlobalNamespace::NoteCutDirection(newValue));
+    }
+    else if (config.enabled)  
+    { 
+        DEBUG_LOG("Note was not an arrow");   
+    }
+    else if (!config.enabled)   
+    { 
+        DEBUG_LOG("Mod was not enabled");     
+    }
+
+    DEBUG_LOG("Value is now %d", noteData->cutDirection.value);
+    
+    GameNoteController_Init(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration, jumpGravity, gameNoteType, cutDirectionAngleOffset, cutAngleTolerance, uniformScale);
+}
+/*
 MAKE_HOOK_OFFSETLESS(GameNoteController_Init, void, GlobalNamespace::GameNoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, Vector3 moveStartPos, Vector3 moveEndPos, Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, GlobalNamespace::GameNoteController_GameNoteType gameNoteType, float cutDirectionAngleOffset)
 {
     DEBUG_LOG("gamenotecontroller init called! direction is %d", noteData->cutDirection.value);
@@ -66,11 +86,11 @@ MAKE_HOOK_OFFSETLESS(GameNoteController_Init, void, GlobalNamespace::GameNoteCon
         int newValue = config.useCustomDirections ? config.directions[value] : directionLookup[value];
         noteData->ChangeNoteCutDirection(GlobalNamespace::NoteCutDirection(newValue));
     }
-    else if (!config.enabled)  
+    else if (config.enabled)  
     { 
         DEBUG_LOG("Note was not an arrow");   
     }
-    else if (config.enabled)   
+    else if (!config.enabled)   
     { 
         DEBUG_LOG("Mod was not enabled");     
     }
@@ -79,6 +99,7 @@ MAKE_HOOK_OFFSETLESS(GameNoteController_Init, void, GlobalNamespace::GameNoteCon
     
     GameNoteController_Init(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration, jumpGravity, gameNoteType, cutDirectionAngleOffset);
 }
+*/
 
 MAKE_HOOK_OFFSETLESS(SceneManager_ActiveSceneChanged, void, UnityEngine::SceneManagement::Scene previousActiveScene, UnityEngine::SceneManagement::Scene nextActiveScene)
 {
@@ -128,7 +149,7 @@ extern "C" void load()
 
     INFO_LOG("Installing hooks");
     LoggerContextObject logger = getLogger().WithContext("Load");
-    INSTALL_HOOK_OFFSETLESS(logger, GameNoteController_Init, il2cpp_utils::FindMethodUnsafe("", "GameNoteController", "Init", 10));
+    INSTALL_HOOK_OFFSETLESS(logger, GameNoteController_Init, il2cpp_utils::FindMethodUnsafe("", "GameNoteController", "Init", 12));
     INSTALL_HOOK_OFFSETLESS(logger, SceneManager_ActiveSceneChanged, il2cpp_utils::FindMethodUnsafe("UnityEngine.SceneManagement", "SceneManager", "Internal_ActiveSceneChanged", 2));
     INSTALL_HOOK_OFFSETLESS(logger, BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData, il2cpp_utils::FindMethodUnsafe("", "BeatmapObjectSpawnMovementData", "GetJumpingNoteSpawnData", 1));
     INFO_LOG("Finished installing hooks");

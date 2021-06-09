@@ -41,16 +41,18 @@ std::vector<std::string> noteNames = {
     "Down Right"
 };
 
-DEFINE_CLASS(InvertedArrows::SettingsViewController);
+DEFINE_TYPE(InvertedArrows::SettingsViewController);
 
 #define CREATE_NOTESELECTOR(toSelect, name) \
-        incrSetting = BeatSaberUI::CreateIncrementSetting(container->get_transform(), name, 0, 1.0f, toSelect, 0.0f, 7.0f, nullptr);\
-        incrSetting->OnValueChange = il2cpp_utils::MakeDelegate<UnityAction_1<float>*>(classof(UnityAction_1<float>*), incrSetting, +[](QuestUI::IncrementSetting* self, float value) { \
-            toSelect = value; \
-            SaveConfig(); \
-            self->Text->SetText(il2cpp_utils::createcsstr(noteNames[value]));\
-        });\
-        incrSetting->Text->SetText(il2cpp_utils::createcsstr(noteNames[toSelect]));
+    dropDown = BeatSaberUI::CreateDropdown(container->get_transform(), name, noteNames[toSelect], noteNames, [](std::string value) { \
+        int i = 0; \
+        for (i = 0; i < 8; i++) \
+        { \
+           if (noteNames[i] == value) break; \
+        } \
+        toSelect = i; \
+        SaveConfig(); \
+    });
 
 
 void InvertedArrows::SettingsViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
@@ -59,7 +61,7 @@ void InvertedArrows::SettingsViewController::DidActivate(bool firstActivation, b
     {
         get_gameObject()->AddComponent<Touchable*>();
         GameObject* container = BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
-        Toggle* enableToggle = BeatSaberUI::CreateToggle(container->get_transform(), "Enable Inverted Arrows", config.enabled, il2cpp_utils::MakeDelegate<UnityAction_1<bool>*>(classof(UnityAction_1<bool>*), this, +[](SettingsViewController* view, bool value) { 
+        Toggle* enableToggle = BeatSaberUI::CreateToggle(container->get_transform(), "Enable Inverted Arrows", config.enabled, [](bool value) { 
                 config.enabled = value;
                 SaveConfig();
                 if (config.enabled)
@@ -70,21 +72,21 @@ void InvertedArrows::SettingsViewController::DidActivate(bool firstActivation, b
                 {
                     unsetenv("InvertedArrowsEnabled");
                 }
-            }));
+            });
         BeatSaberUI::AddHoverHint(enableToggle->get_gameObject(), "Wether the mod will change arrow directions at all, enabling this will disable scores from being submitted to scoresaber (if installed)");
-        Toggle* bombFlipToggle = BeatSaberUI::CreateToggle(container->get_transform(), "Also Flip Bomb Y", config.alsoFlipBombY, il2cpp_utils::MakeDelegate<UnityAction_1<bool>*>(classof(UnityAction_1<bool>*), this, +[](SettingsViewController* view, bool value) { 
+        Toggle* bombFlipToggle = BeatSaberUI::CreateToggle(container->get_transform(), "Also Flip Bomb Y", config.alsoFlipBombY, [](bool value) { 
                 config.alsoFlipBombY = value;
                 SaveConfig();
-            }));
+            });
         BeatSaberUI::AddHoverHint(bombFlipToggle->get_gameObject(), "Wether to also invert the bomb layer when flipping the directions");
         
-        Toggle* customDirToggle = BeatSaberUI::CreateToggle(container->get_transform(), "Use Custom Directions", config.useCustomDirections, il2cpp_utils::MakeDelegate<UnityAction_1<bool>*>(classof(UnityAction_1<bool>*), this, +[](SettingsViewController* view, bool value) { 
+        Toggle* customDirToggle = BeatSaberUI::CreateToggle(container->get_transform(), "Use Custom Directions", config.useCustomDirections, [](bool value) { 
                 config.useCustomDirections = value;
                 SaveConfig();
-            }));
+            });
         BeatSaberUI::AddHoverHint(customDirToggle->get_gameObject(), "Wether to just invert the directions, or to use the custom directions defined below");
 
-        IncrementSetting* incrSetting = nullptr;
+        SimpleTextDropdown* dropDown = nullptr;
         CREATE_NOTESELECTOR(config.upDirection, "Up Replacement Direction");
         CREATE_NOTESELECTOR(config.downDirection, "Down Replacement Direction");
         CREATE_NOTESELECTOR(config.leftDirection, "Left Replacement Direction");

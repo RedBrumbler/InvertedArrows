@@ -1,0 +1,27 @@
+{
+    "_QPVersion": "0.1.1",
+    "name": "Inverted Arrows",
+    "id": "InvertedArrows",
+    "author": "RedBrumbler",
+    "version": "1.0.3",
+    "packageId": "com.beatgames.beatsaber",
+    "packageVersion": "1.16.2",
+    "coverImage": "cover.png",
+    "description": "Customize all arrow directions on a beatmap",
+    "type": "Gameplay",
+    "dependencies": [
+    ],
+	"modFiles": [
+		"libinvertedarrows.so"
+    ],
+    "libraryFiles": [
+        "libbeatsaber-hook_1_3_5.so",
+        "libbeatsaber-hook_1_3_3.so",
+        "libbs-utils.so",
+        "libcodegen_0_9_0.so",
+        "libcustom-types.so",
+        "libquestui.so"
+    ],
+    "fileCopies": [
+    ]
+}
