@@ -52,6 +52,12 @@ LOCAL_MODULE := modloader
 LOCAL_EXPORT_C_INCLUDES := extern/modloader
 LOCAL_SRC_FILES := extern/libmodloader.so
 include $(PREBUILT_SHARED_LIBRARY)
+# Creating prebuilt for dependency: bs-utils - version: 0.6.0
+include $(CLEAR_VARS)
+LOCAL_MODULE := bs-utils
+LOCAL_EXPORT_C_INCLUDES := extern/bs-utils
+LOCAL_SRC_FILES := extern/libbs-utils.so
+include $(PREBUILT_SHARED_LIBRARY)
 
 # If you would like to use more shared libraries (such as custom UI, utils, or more) add them here, following the format above.
 # In addition, ensure that you add them to the shared library build below.
@@ -66,7 +72,8 @@ LOCAL_SHARED_LIBRARIES += beatsaber-hook_2_0_3
 LOCAL_SHARED_LIBRARIES += codegen_0_10_2
 LOCAL_SHARED_LIBRARIES += custom-types
 LOCAL_SHARED_LIBRARIES += questui
+LOCAL_SHARED_LIBRARIES += bs-utils
 LOCAL_LDLIBS += -llog
-LOCAL_CFLAGS += -I'D:/il2cpp/libil2cpp' -isystem 'extern' -I'extern/codegen/include' -DID='"InvertedArrows"' -DVERSION='"1.0.3"' -I'./shared' -I'./extern' -Wno-inaccessible-base
+LOCAL_CFLAGS += -I'extern/libil2cpp/il2cpp/libil2cpp/' -isystem 'extern' -I'extern/codegen/include' -DID='"InvertedArrows"' -DVERSION='"1.0.3"' -I'./shared' -I'./extern' -Wno-inaccessible-base
 LOCAL_C_INCLUDES += ./include ./src
 include $(BUILD_SHARED_LIBRARY)

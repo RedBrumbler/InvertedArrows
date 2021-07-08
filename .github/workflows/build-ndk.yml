@@ -14,7 +14,7 @@ on:
       # ignore all .yml files
       - '**.yml'
       # dont ignore this specific file
-      - '!.github/workflows/BuildMod.yml'
+      - '!.github/workflows/build-ndk.yml'
       # ignore all .json files
       - '**.json'
       # dont ignore this specific file
@@ -24,7 +24,7 @@ on:
       # dont ignore this specific file
       - '!build.ps1'
       # dont ignore this specific file
-      - '!buildQMOD.ps1'
+      - '!buildQmod.ps1'
       # ignore all .md files
       - '**.md'
       # ignore the gitignore file
@@ -37,7 +37,7 @@ on:
 # set env variables
 env:
     ndkname: android-ndk-r22
-    module_id: antivertigo
+    module_id: invertedarrows
 
 # building a mod consists of a few steps
 
@@ -168,7 +168,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ steps.libname.outputs.NAME }}
-        path: ./libs/arm64-v8a/${{ steps.libname.outputs.NAME }
+        path: ./libs/arm64-v8a/${{ steps.libname.outputs.NAME }}
         # if not found error obviously
         if-no-files-found: error
     #upload the debug .so

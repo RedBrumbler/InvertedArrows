@@ -22,8 +22,7 @@
 #include "UnityEngine/Vector3.hpp"
 #include "UnityEngine/Quaternion.hpp"
 
-#warning bs-utils commented out!
-//#include "bs-utils/shared/utils.hpp"
+#include "bs-utils/shared/utils.hpp"
 #include <string>
 #include "config.hpp"
 
@@ -78,6 +77,7 @@ MAKE_HOOK_MATCH(GameNoteController_Init, &GlobalNamespace::GameNoteController::I
     
     GameNoteController_Init(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration, jumpGravity, gameNoteType, cutDirectionAngleOffset, cutAngleTolerance, uniformScale);
 }
+
 /*
 MAKE_HOOK_MATCH(GameNoteController_Init, void, GlobalNamespace::GameNoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, Vector3 moveStartPos, Vector3 moveEndPos, Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, GlobalNamespace::GameNoteController_GameNoteType gameNoteType, float cutDirectionAngleOffset)
 {
@@ -114,16 +114,12 @@ MAKE_HOOK_MATCH(SceneManager_SetActiveScene, &UnityEngine::SceneManagement::Scen
         if (config.enabled)
         {
             INFO_LOG("Disabling score submission because inverted arrows is enabled");
-            ERROR_LOG("bs-utils commented out!");
-            #warning bs-utils commented out
-            //bs_utils::Submission::disable(modInfo);
+            bs_utils::Submission::disable(modInfo);
         } 
         else 
         {
             INFO_LOG("Enabling score submission because inverted arrows is disabled");
-            ERROR_LOG("bs-utils commented out!");
-            #warning bs-utils commented out
-            //bs_utils::Submission::enable(modInfo);
+            bs_utils::Submission::enable(modInfo);
         }
     }
 
