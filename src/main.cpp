@@ -1,4 +1,5 @@
 #include "beatsaber-hook/shared/utils/utils.h"
+#include "beatsaber-hook/shared/utils/hooking.hpp"
 #include "beatsaber-hook/shared/utils/logging.hpp"
 #include "modloader/shared/modloader.hpp"
 #include "beatsaber-hook/shared/utils/il2cpp-functions.hpp"
@@ -17,10 +18,12 @@
 #include "GlobalNamespace/BeatmapObjectSpawnMovementData.hpp"
 #include "GlobalNamespace/BeatmapObjectSpawnMovementData_NoteSpawnData.hpp"
 #include "UnityEngine/SceneManagement/Scene.hpp"
+#include "UnityEngine/SceneManagement/SceneManager.hpp"
 #include "UnityEngine/Vector3.hpp"
 #include "UnityEngine/Quaternion.hpp"
 
-#include "bs-utils/shared/utils.hpp"
+#warning bs-utils commented out!
+//#include "bs-utils/shared/utils.hpp"
 #include <string>
 #include "config.hpp"
 
@@ -52,7 +55,7 @@ Logger& getLogger() {
 
 unsigned char directionLookup[8] = {1, 0, 3, 2, 7, 6, 5, 4};
 
-MAKE_HOOK_OFFSETLESS(GameNoteController_Init, void, GlobalNamespace::GameNoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, Vector3 moveStartPos, Vector3 moveEndPos, Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, GlobalNamespace::GameNoteController_GameNoteType gameNoteType, float cutDirectionAngleOffset, float cutAngleTolerance, float uniformScale)
+MAKE_HOOK_MATCH(GameNoteController_Init, &GlobalNamespace::GameNoteController::Init, void, GlobalNamespace::GameNoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, Vector3 moveStartPos, Vector3 moveEndPos, Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, GlobalNamespace::GameNoteController_GameNoteType gameNoteType, float cutDirectionAngleOffset, float cutAngleTolerance, float uniformScale)
 {
     DEBUG_LOG("gamenotecontroller init called! direction is %d", noteData->cutDirection.value);
     int value = noteData->cutDirection.value;
@@ -76,7 +79,7 @@ MAKE_HOOK_OFFSETLESS(GameNoteController_Init, void, GlobalNamespace::GameNoteCon
     GameNoteController_Init(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration, jumpGravity, gameNoteType, cutDirectionAngleOffset, cutAngleTolerance, uniformScale);
 }
 /*
-MAKE_HOOK_OFFSETLESS(GameNoteController_Init, void, GlobalNamespace::GameNoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, Vector3 moveStartPos, Vector3 moveEndPos, Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, GlobalNamespace::GameNoteController_GameNoteType gameNoteType, float cutDirectionAngleOffset)
+MAKE_HOOK_MATCH(GameNoteController_Init, void, GlobalNamespace::GameNoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, Vector3 moveStartPos, Vector3 moveEndPos, Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, GlobalNamespace::GameNoteController_GameNoteType gameNoteType, float cutDirectionAngleOffset)
 {
     DEBUG_LOG("gamenotecontroller init called! direction is %d", noteData->cutDirection.value);
     int value = noteData->cutDirection.value;
@@ -101,9 +104,9 @@ MAKE_HOOK_OFFSETLESS(GameNoteController_Init, void, GlobalNamespace::GameNoteCon
 }
 */
 
-MAKE_HOOK_OFFSETLESS(SceneManager_ActiveSceneChanged, void, UnityEngine::SceneManagement::Scene previousActiveScene, UnityEngine::SceneManagement::Scene nextActiveScene)
+MAKE_HOOK_MATCH(SceneManager_SetActiveScene, &UnityEngine::SceneManagement::SceneManager::SetActiveScene, bool, UnityEngine::SceneManagement::Scene scene)
 {
-    getSceneName(nextActiveScene, sceneLoadedName);
+    getSceneName(scene, sceneLoadedName);
     DEBUG_LOG("Found scene %s", sceneLoadedName.c_str());
 
     if (sceneLoadedName == gameCore)
@@ -111,21 +114,25 @@ MAKE_HOOK_OFFSETLESS(SceneManager_ActiveSceneChanged, void, UnityEngine::SceneMa
         if (config.enabled)
         {
             INFO_LOG("Disabling score submission because inverted arrows is enabled");
-            bs_utils::Submission::disable(modInfo);
+            ERROR_LOG("bs-utils commented out!");
+            #warning bs-utils commented out
+            //bs_utils::Submission::disable(modInfo);
         } 
         else 
         {
             INFO_LOG("Enabling score submission because inverted arrows is disabled");
-            bs_utils::Submission::enable(modInfo);
+            ERROR_LOG("bs-utils commented out!");
+            #warning bs-utils commented out
+            //bs_utils::Submission::enable(modInfo);
         }
     }
 
-    SceneManager_ActiveSceneChanged(previousActiveScene, nextActiveScene);
+    return SceneManager_SetActiveScene(scene);
 }
 
 int layerLookup[3] = {2, 1, 0};
 
-MAKE_HOOK_OFFSETLESS(BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData, GlobalNamespace::BeatmapObjectSpawnMovementData::NoteSpawnData, GlobalNamespace::BeatmapObjectSpawnMovementData* self, GlobalNamespace::NoteData* noteData)
+MAKE_HOOK_MATCH(BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData, &GlobalNamespace::BeatmapObjectSpawnMovementData::GetJumpingNoteSpawnData, GlobalNamespace::BeatmapObjectSpawnMovementData::NoteSpawnData, GlobalNamespace::BeatmapObjectSpawnMovementData* self, GlobalNamespace::NoteData* noteData)
 {
     if (config.enabled && config.alsoFlipBombY && noteData->get_colorType() == -1)
         noteData->set_noteLineLayer(layerLookup[noteData->get_noteLineLayer().value]);
@@ -149,13 +156,13 @@ extern "C" void load()
 
     INFO_LOG("Installing hooks");
     LoggerContextObject logger = getLogger().WithContext("Load");
-    INSTALL_HOOK_OFFSETLESS(logger, GameNoteController_Init, il2cpp_utils::FindMethodUnsafe("", "GameNoteController", "Init", 12));
-    INSTALL_HOOK_OFFSETLESS(logger, SceneManager_ActiveSceneChanged, il2cpp_utils::FindMethodUnsafe("UnityEngine.SceneManagement", "SceneManager", "Internal_ActiveSceneChanged", 2));
-    INSTALL_HOOK_OFFSETLESS(logger, BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData, il2cpp_utils::FindMethodUnsafe("", "BeatmapObjectSpawnMovementData", "GetJumpingNoteSpawnData", 1));
+    INSTALL_HOOK(logger, GameNoteController_Init);
+    INSTALL_HOOK(logger, SceneManager_SetActiveScene);
+    INSTALL_HOOK(logger, BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData);
     INFO_LOG("Finished installing hooks");
 
     INFO_LOG("Registering Custom types");
-    custom_types::Register::RegisterType<InvertedArrows::SettingsViewController>();
+    custom_types::Register::AutoRegister();
     INFO_LOG("Custom types registered");
 
     INFO_LOG("Registering UI view controllers");

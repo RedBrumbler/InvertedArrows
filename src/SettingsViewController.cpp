@@ -41,7 +41,7 @@ std::vector<std::string> noteNames = {
     "Down Right"
 };
 
-DEFINE_TYPE(InvertedArrows::SettingsViewController);
+DEFINE_TYPE(InvertedArrows, SettingsViewController);
 
 #define CREATE_NOTESELECTOR(toSelect, name) \
     dropDown = BeatSaberUI::CreateDropdown(container->get_transform(), name, noteNames[toSelect], noteNames, [](std::string value) { \
