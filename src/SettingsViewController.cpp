@@ -44,7 +44,7 @@ std::vector<std::string> noteNames = {
 DEFINE_TYPE(InvertedArrows, SettingsViewController);
 
 #define CREATE_NOTESELECTOR(toSelect, name) \
-    dropDown = BeatSaberUI::CreateDropdown(container->get_transform(), name, noteNames[toSelect], noteNames, [](std::string value) { \
+    dropDown = BeatSaberUI::CreateDropdown(container->get_transform(), name, noteNames[toSelect], noteNames, [](auto value) { \
         int i = 0; \
         for (i = 0; i < 8; i++) \
         { \
@@ -87,13 +87,13 @@ void InvertedArrows::SettingsViewController::DidActivate(bool firstActivation, b
         BeatSaberUI::AddHoverHint(customDirToggle->get_gameObject(), "Wether to just invert the directions, or to use the custom directions defined below");
 
         SimpleTextDropdown* dropDown = nullptr;
-        CREATE_NOTESELECTOR(config.upDirection, "Up Replacement Direction");
-        CREATE_NOTESELECTOR(config.downDirection, "Down Replacement Direction");
-        CREATE_NOTESELECTOR(config.leftDirection, "Left Replacement Direction");
-        CREATE_NOTESELECTOR(config.rightDirection, "Right Replacement Direction");
-        CREATE_NOTESELECTOR(config.upLeftDirection, "Up Left Replacement Direction");
-        CREATE_NOTESELECTOR(config.upRightDirection, "Up Right Replacement Direction");
-        CREATE_NOTESELECTOR(config.downLeftDirection, "Down Left Replacement Direction");
-        CREATE_NOTESELECTOR(config.downRightDirection, "Down Right Replacement Direction");
+        CREATE_NOTESELECTOR(config.upDirection, u"Up Replacement Direction");
+        CREATE_NOTESELECTOR(config.downDirection, u"Down Replacement Direction");
+        CREATE_NOTESELECTOR(config.leftDirection, u"Left Replacement Direction");
+        CREATE_NOTESELECTOR(config.rightDirection, u"Right Replacement Direction");
+        CREATE_NOTESELECTOR(config.upLeftDirection, u"Up Left Replacement Direction");
+        CREATE_NOTESELECTOR(config.upRightDirection, u"Up Right Replacement Direction");
+        CREATE_NOTESELECTOR(config.downLeftDirection, u"Down Left Replacement Direction");
+        CREATE_NOTESELECTOR(config.downRightDirection, u"Down Right Replacement Direction");
     }
 }
