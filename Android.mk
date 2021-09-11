@@ -72,7 +72,7 @@ LOCAL_SHARED_LIBRARIES += questui
 LOCAL_SHARED_LIBRARIES += bs-utils
 LOCAL_SHARED_LIBRARIES += codegen
 LOCAL_LDLIBS += -llog
-LOCAL_CFLAGS += -DID='"InvertedArrows"' -DVERSION='"1.0.3"' -Wno-inaccessible-base -O2
+LOCAL_CFLAGS += -DID='"InvertedArrows"' -DVERSION='"1.0.5"' -Wno-inaccessible-base -O2
 LOCAL_C_INCLUDES += ./include ./src ./extern/libil2cpp/il2cpp/libil2cpp/ ./extern/codegen/include ./extern ./shared
 LOCAL_CPP_FEATURES += rtti exceptions
 include $(BUILD_SHARED_LIBRARY)
