@@ -44,7 +44,7 @@ std::vector<std::string> noteNames = {
 DEFINE_TYPE(InvertedArrows, SettingsViewController);
 
 #define CREATE_NOTESELECTOR(toSelect, name) \
-    dropDown = BeatSaberUI::CreateDropdown(container->get_transform(), name, noteNames[toSelect], noteNames, [](auto value) { \
+    dropDown = BeatSaberUI::CreateDropdown(container->get_transform(), name, noteNames_cs[toSelect], noteNames_cs, [](auto value) { \
         int i = 0; \
         for (i = 0; i < 8; i++) \
         { \
@@ -87,6 +87,10 @@ void InvertedArrows::SettingsViewController::DidActivate(bool firstActivation, b
         BeatSaberUI::AddHoverHint(customDirToggle->get_gameObject(), "Wether to just invert the directions, or to use the custom directions defined below");
 
         SimpleTextDropdown* dropDown = nullptr;
+        std::vector<StringW> noteNames_cs = {};
+        for (auto name : noteNames) {
+            noteNames_cs.emplace_back(name);
+        }
         CREATE_NOTESELECTOR(config.upDirection, u"Up Replacement Direction");
         CREATE_NOTESELECTOR(config.downDirection, u"Down Replacement Direction");
         CREATE_NOTESELECTOR(config.leftDirection, u"Left Replacement Direction");

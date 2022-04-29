@@ -8,9 +8,7 @@
 
 #include "GlobalNamespace/NoteController.hpp"
 #include "GlobalNamespace/GameNoteController.hpp"
-#include "GlobalNamespace/GameNoteController_GameNoteType.hpp"
 #include "GlobalNamespace/NoteData.hpp"
-#include "GlobalNamespace/BeatmapSaveData_NoteData.hpp"
 #include "GlobalNamespace/NoteCutDirection.hpp"
 #include "GlobalNamespace/NoteLineLayer.hpp"
 #include "GlobalNamespace/ColorType.hpp"
@@ -46,15 +44,13 @@ Logger& getLogger() {
   static Logger* logger = new Logger(modInfo, LoggerOptions(false, true));
   return *logger;
 }
-
-
 #define INFO_LOG(value...)  getLogger().WithContext("INFO").info(value)
 #define ERROR_LOG(value...) getLogger().WithContext("ERROR").error(value)
 #define DEBUG_LOG(value...) getLogger().WithContext("DEBUG").debug(value)
 
 unsigned char directionLookup[8] = {1, 0, 3, 2, 7, 6, 5, 4};
 
-MAKE_HOOK_MATCH(GameNoteController_Init, &GlobalNamespace::GameNoteController::Init, void, GlobalNamespace::GameNoteController* self, GlobalNamespace::NoteData* noteData, float worldRotation, Vector3 moveStartPos, Vector3 moveEndPos, Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, GlobalNamespace::GameNoteController_GameNoteType gameNoteType, float cutDirectionAngleOffset, float cutAngleTolerance, float uniformScale)
+MAKE_HOOK_MATCH(GameNoteController_Init, &GlobalNamespace::GameNoteController::Init, void, GlobalNamespace::GameNoteController* self,::GlobalNamespace::NoteData* noteData, float worldRotation, ::UnityEngine::Vector3 moveStartPos, ::UnityEngine::Vector3 moveEndPos, ::UnityEngine::Vector3 jumpEndPos, float moveDuration, float jumpDuration, float jumpGravity, ::GlobalNamespace::NoteVisualModifierType noteVisualModifierType, float cutAngleTolerance, float uniformScale)
 {
     DEBUG_LOG("gamenotecontroller init called! direction is %d", noteData->cutDirection.value);
     int value = noteData->cutDirection.value;
@@ -75,7 +71,7 @@ MAKE_HOOK_MATCH(GameNoteController_Init, &GlobalNamespace::GameNoteController::I
 
     DEBUG_LOG("Value is now %d", noteData->cutDirection.value);
     
-    GameNoteController_Init(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration, jumpGravity, gameNoteType, cutDirectionAngleOffset, cutAngleTolerance, uniformScale);
+    GameNoteController_Init(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration, jumpGravity, noteVisualModifierType, cutAngleTolerance, uniformScale);
 }
 
 /*
@@ -137,7 +133,7 @@ MAKE_HOOK_MATCH(BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData, &GlobalN
 
 extern "C" void setup(ModInfo& info) 
 {
-    info.id = ID;
+    info.id = MOD_ID;
     info.version = VERSION;
     modInfo = info;
 }
