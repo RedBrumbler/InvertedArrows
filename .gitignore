@@ -7,3 +7,8 @@ libs/
 obj/
 qpm.shared.json
 ndkpath.txt
+mod.json
+*.txt
+!CMakeLists.txt
+qpm_defines.cmake
+extern.cmake
