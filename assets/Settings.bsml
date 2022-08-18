@@ -1,0 +1,16 @@
+<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='https://raw.githubusercontent.com/RedBrumbler/Quest-BSML-Docs/gh-pages/schema.xsd'>
+    <scrollable-settings-container size-delta-x="-54" size-delta-y='0'>
+        <toggle-setting text='Enabled' apply-on-change='true' value='enabled' 
+        hover-hint='Whether the mod will change arrow directions at all, enabling this will disable scores from being submitted to scoresaber (if installed)'/>
+        <toggle-setting text='Invert Bomb Y' apply-on-change='true' value='alsoFlipBombY' hover-hint='Whether to also move bombs from the lowest layer to the highest layer, and vice versa'/>
+        <toggle-setting text='Use Custom Directions' apply-on-change='true' value='useCustomDirections' hover-hint='whether to just invert the directions, or to use the directions defined below'/>
+        <dropdown-list-setting text='Up Replacement Direction' options='directions' apply-on-change='true' value='upDirection'/>
+        <dropdown-list-setting text='Down Replacement Direction' options='directions' apply-on-change='true' value='downDirection'/>
+        <dropdown-list-setting text='Left Replacement Direction' options='directions' apply-on-change='true' value='leftDirection'/>
+        <dropdown-list-setting text='Right Replacement Direction' options='directions' apply-on-change='true' value='rightDirection'/>
+        <dropdown-list-setting text='Up Left Replacement Direction' options='directions' apply-on-change='true' value='upLeftDirection'/>
+        <dropdown-list-setting text='Up Right Replacement Direction' options='directions' apply-on-change='true' value='upRightDirection'/>
+        <dropdown-list-setting text='Down Left Replacement Direction' options='directions' apply-on-change='true' value='downLeftDirection'/>
+        <dropdown-list-setting text='Down Right Replacement Direction' options='directions' apply-on-change='true' value='downRightDirection'/>
+    </scrollable-settings-container>
+</bg>
