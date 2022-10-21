@@ -23,12 +23,13 @@
 #include "bs-utils/shared/utils.hpp"
 #include <string>
 #include "config.hpp"
+#include "assets.hpp"
 
-#include "SettingsViewController.hpp"
+#include "SettingsHost.hpp"
 
 #include "custom-types/shared/register.hpp"
-#include "questui/shared/QuestUI.hpp"
-#include "questui/shared/BeatSaberUI.hpp"
+#include "bsml/shared/BSML.hpp"
+#include "bsml/shared/BSMLDataCache.hpp"
 
 ModInfo modInfo;
 extern config_t config;
@@ -41,9 +42,10 @@ std::string gameCore = "GameCore";
 bool getSceneName(UnityEngine::SceneManagement::Scene scene, std::string& output);
 
 Logger& getLogger() {
-  static Logger* logger = new Logger(modInfo, LoggerOptions(false, true));
-  return *logger;
+    static Logger* logger = new Logger(modInfo, LoggerOptions(false, true));
+    return *logger;
 }
+
 #define INFO_LOG(value...)  getLogger().WithContext("INFO").info(value)
 #define ERROR_LOG(value...) getLogger().WithContext("ERROR").error(value)
 #define DEBUG_LOG(value...) getLogger().WithContext("DEBUG").debug(value)
@@ -100,28 +102,6 @@ MAKE_HOOK_MATCH(GameNoteController_Init, void, GlobalNamespace::GameNoteControll
 }
 */
 
-MAKE_HOOK_MATCH(SceneManager_SetActiveScene, &UnityEngine::SceneManagement::SceneManager::SetActiveScene, bool, UnityEngine::SceneManagement::Scene scene)
-{
-    getSceneName(scene, sceneLoadedName);
-    DEBUG_LOG("Found scene %s", sceneLoadedName.c_str());
-
-    if (sceneLoadedName == gameCore)
-    {
-        if (config.enabled)
-        {
-            INFO_LOG("Disabling score submission because inverted arrows is enabled");
-            bs_utils::Submission::disable(modInfo);
-        } 
-        else 
-        {
-            INFO_LOG("Enabling score submission because inverted arrows is disabled");
-            bs_utils::Submission::enable(modInfo);
-        }
-    }
-
-    return SceneManager_SetActiveScene(scene);
-}
-
 int layerLookup[3] = {2, 1, 0};
 
 MAKE_HOOK_MATCH(BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData, &GlobalNamespace::BeatmapObjectSpawnMovementData::GetJumpingNoteSpawnData, GlobalNamespace::BeatmapObjectSpawnMovementData::NoteSpawnData, GlobalNamespace::BeatmapObjectSpawnMovementData* self, GlobalNamespace::NoteData* noteData)
@@ -144,12 +124,10 @@ extern "C" void load()
             SaveConfig();
 
     il2cpp_functions::Init();
-    QuestUI::Init();
 
     INFO_LOG("Installing hooks");
     LoggerContextObject logger = getLogger().WithContext("Load");
     INSTALL_HOOK(logger, GameNoteController_Init);
-    INSTALL_HOOK(logger, SceneManager_SetActiveScene);
     INSTALL_HOOK(logger, BeatmapObjectSpawnMovementData_GetJumpingNoteSpawnData);
     INFO_LOG("Finished installing hooks");
 
@@ -158,7 +136,7 @@ extern "C" void load()
     INFO_LOG("Custom types registered");
 
     INFO_LOG("Registering UI view controllers");
-    QuestUI::Register::RegisterModSettingsViewController<InvertedArrows::SettingsViewController*>((ModInfo){"Inverted Arrows", VERSION}, "Inverted Arrows");
+    BSML::Register::RegisterSettingsMenu("Inverted Arrows", MOD_ID "_settings", InvertedArrows::SettingsHost::get_instance(), false);
     INFO_LOG("UI view controllers registered");
 }
 
@@ -169,4 +147,8 @@ bool getSceneName(UnityEngine::SceneManagement::Scene scene, std::string& output
     RET_0_UNLESS(logger, csString);
     output = to_utf8(csstrtostr(csString));
     return true; 
+}
+
+BSML_DATACACHE(settings) {
+    return IncludedAssets::Settings_bsml;
 }

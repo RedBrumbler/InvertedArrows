@@ -13,7 +13,7 @@
   "dependencies": [
     {
       "id": "beatsaber-hook",
-      "versionRange": "^3.10.0",
+      "versionRange": "^3.14.0",
       "additionalData": {
         "extraFiles": [
           "src/inline-hook"
@@ -22,21 +22,14 @@
     },
     {
       "id": "codegen",
-      "versionRange": "^0.25.0",
+      "versionRange": "^0.28.0",
       "additionalData": {
         "includeQmod": false
       }
     },
     {
       "id": "custom-types",
-      "versionRange": "^0.15.18",
-      "additionalData": {
-        "includeQmod": false
-      }
-    },
-    {
-      "id": "questui",
-      "versionRange": "^0.16.4",
+      "versionRange": "^0.15.21",
       "additionalData": {
         "includeQmod": false
       }
@@ -48,7 +41,7 @@
     },
     {
       "id": "bsml",
-      "versionRange": "^0.1.6",
+      "versionRange": "^0.2.0",
       "additionalData": {}
     }
   ],

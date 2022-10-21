@@ -1,5 +1,5 @@
 <bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='https://raw.githubusercontent.com/RedBrumbler/Quest-BSML-Docs/gh-pages/schema.xsd'>
-    <scrollable-settings-container size-delta-x="-54" size-delta-y='0'>
+    <scrollable-settings-container>
         <toggle-setting text='Enabled' apply-on-change='true' value='enabled' 
         hover-hint='Whether the mod will change arrow directions at all, enabling this will disable scores from being submitted to scoresaber (if installed)'/>
         <toggle-setting text='Invert Bomb Y' apply-on-change='true' value='alsoFlipBombY' hover-hint='Whether to also move bombs from the lowest layer to the highest layer, and vice versa'/>

@@ -4,13 +4,10 @@
 #include "custom-types/shared/macros.hpp"
 #include "bsml/shared/macros.hpp"
 
-
-DECLARE_CLASS_CODEGEN(InvertedArrows, SettingsViewController, HMUI::ViewController,
-    DECLARE_INSTANCE_FIELD(ListWrapper<StringW>, _directions);
-    DECLARE_INSTANCE_METHOD(ListWrapper<StringW>, get_directions);
+DECLARE_CLASS_CODEGEN(InvertedArrows, SettingsHost, Il2CppObject,
+    DECLARE_INSTANCE_FIELD_DEFAULT(ListWrapper<Il2CppObject*>, _directions, nullptr);
+    DECLARE_INSTANCE_METHOD(ListWrapper<Il2CppObject*>, get_directions);
     DECLARE_INSTANCE_METHOD(int, StringWToListIndex, StringW value);
-
-    DECLARE_OVERRIDE_METHOD(void, DidActivate, il2cpp_utils::FindMethodUnsafe("HMUI", "ViewController", "DidActivate", 3), bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling);
 
     DECLARE_BSML_PROPERTY(bool, enabled);
     DECLARE_BSML_PROPERTY(bool, alsoFlipBombY);
@@ -25,4 +22,9 @@ DECLARE_CLASS_CODEGEN(InvertedArrows, SettingsViewController, HMUI::ViewControll
     DECLARE_BSML_PROPERTY(StringW, upRightDirection);
     DECLARE_BSML_PROPERTY(StringW, downLeftDirection);
     DECLARE_BSML_PROPERTY(StringW, downRightDirection);
+    DECLARE_CTOR(ctor);
+    public:
+        static SettingsHost* get_instance();
+    private:
+        static SafePtr<SettingsHost> instance;
 )
