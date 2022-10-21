@@ -7,7 +7,11 @@
     "version": "1.0.6",
     "url": "https://github.com/RedBrumbler/InvertedArrows",
     "additionalData": {
-      "overrideSoName": "libinvertedarrows.so"
+      "soLink": "https://github.com/RedBrumbler/InvertedArrows/releases/download/v1.0.6/libinvertedarrows.so",
+      "debugSoLink": "https://github.com/RedBrumbler/InvertedArrows/releases/download/v1.0.6/debug_libinvertedarrows.so",
+      "overrideSoName": "libinvertedarrows.so",
+      "modLink": "https://github.com/RedBrumbler/InvertedArrows/releases/download/v1.0.6/InvertedArrows.qmod",
+      "branchName": "version-v1.0.6"
     }
   },
   "dependencies": [
