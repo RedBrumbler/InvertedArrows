@@ -1,17 +1,15 @@
 {
-  "_QPVersion": "0.1.1",
-  "name": "${mod_name}",
-  "id": "${mod_id}",
-  "author": "RedBrumbler",
-  "version": "${version}",
-  "packageId": "com.beatgames.beatsaber",
-  "packageVersion": "1.25.1",
-  "description": "Customize all arrow directions on a beatmap",
-  "coverImage": "cover.png",
-  "dependencies": [],
-  "modFiles": [
-  ],
-  "libraryFiles": [
-  ],
-  "fileCopies": []
+    "_QPVersion": "0.1.1",
+    "name": "${mod_name}",
+    "id": "${mod_id}",
+    "author": "RedBrumbler",
+    "version": "${version}",
+    "packageId": "com.beatgames.beatsaber",
+    "packageVersion": "1.27.0_3631150051",
+    "description": "Customize all arrow directions on a beatmap",
+    "coverImage": "cover.png",
+    "dependencies": [],
+    "modFiles": [],
+    "libraryFiles": [],
+    "fileCopies": []
 }
