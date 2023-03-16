@@ -44,7 +44,6 @@ jobs:
 
     - name: QPM Collapse
       run: |
-        chmod +x qpm-rust
         qpm-rust collapse
 
     - name: QPM Dependencies Cache
