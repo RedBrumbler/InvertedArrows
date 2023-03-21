@@ -5,7 +5,7 @@
     "info": {
       "name": "InvertedArrows",
       "id": "invertedarrows",
-      "version": "1.0.2",
+      "version": "1.0.9",
       "url": "https://github.com/RedBrumbler/InvertedArrows",
       "additionalData": {
         "overrideSoName": "libinvertedarrows.so"
@@ -23,12 +23,12 @@
       },
       {
         "id": "codegen",
-        "versionRange": "^0.32.0",
+        "versionRange": "^0.33.0",
         "additionalData": {}
       },
       {
         "id": "custom-types",
-        "versionRange": "^0.15.22",
+        "versionRange": "^0.15.23",
         "additionalData": {}
       },
       {
@@ -38,27 +38,51 @@
       },
       {
         "id": "bsml",
-        "versionRange": "^0.2.10",
+        "versionRange": "^0.3.1",
         "additionalData": {}
       }
     ],
-    "additionalData": {}
+    "workspace": {
+      "scripts": {
+        "clean": [
+          "pwsh ./scripts/build.ps1 -clean"
+        ],
+        "log": [
+          "pwsh ./scripts/log.ps1"
+        ],
+        "build": [
+          "pwsh ./scripts/build.ps1"
+        ],
+        "qmod": [
+          "pwsh ./scripts/build.ps1 -clean",
+          "qpm-rust qmod build",
+          "pwsh ./scripts/createqmod.ps1 InvertedArrows -clean"
+        ],
+        "copy": [
+          "pwsh ./scripts/copy.ps1"
+        ]
+      }
+    }
   },
   "restoredDependencies": [
     {
       "dependency": {
         "id": "bsml",
-        "versionRange": "^0.2.10",
+        "versionRange": "=0.3.1",
         "additionalData": {
-          "overrideSoName": "libbsml.so"
+          "soLink": "https://github.com/RedBrumbler/Quest-BSML/releases/download/v0.3.1/libbsml.so",
+          "debugSoLink": "https://github.com/RedBrumbler/Quest-BSML/releases/download/v0.3.1/debug_libbsml.so",
+          "overrideSoName": "libbsml.so",
+          "modLink": "https://github.com/RedBrumbler/Quest-BSML/releases/download/v0.3.1/BSML.qmod",
+          "branchName": "version-v0.3.1"
         }
       },
-      "version": "0.2.10"
+      "version": "0.3.1"
     },
     {
       "dependency": {
         "id": "bs-utils",
-        "versionRange": "^0.7.1",
+        "versionRange": "=0.7.2",
         "additionalData": {
           "soLink": "https://github.com/sc2ad/QuestBS-Utils/releases/download/v0.7.2/libbs-utils.so",
           "debugSoLink": "https://github.com/sc2ad/QuestBS-Utils/releases/download/v0.7.2/debug_libbs-utils.so",
@@ -71,32 +95,8 @@
     },
     {
       "dependency": {
-        "id": "libil2cpp",
-        "versionRange": "^0.2.3",
-        "additionalData": {
-          "headersOnly": true
-        }
-      },
-      "version": "0.2.3"
-    },
-    {
-      "dependency": {
-        "id": "custom-types",
-        "versionRange": "^0.15.22",
-        "additionalData": {
-          "soLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.22/libcustom-types.so",
-          "debugSoLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.22/debug_libcustom-types.so",
-          "overrideSoName": "libcustom-types.so",
-          "modLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.22/CustomTypes.qmod",
-          "branchName": "version-v0.15.22"
-        }
-      },
-      "version": "0.15.22"
-    },
-    {
-      "dependency": {
         "id": "modloader",
-        "versionRange": "^1.2.3",
+        "versionRange": "=1.2.3",
         "additionalData": {
           "soLink": "https://github.com/sc2ad/QuestLoader/releases/download/v1.2.3/libmodloader64.so",
           "overrideSoName": "libmodloader.so",
@@ -107,8 +107,22 @@
     },
     {
       "dependency": {
+        "id": "custom-types",
+        "versionRange": "=0.15.23",
+        "additionalData": {
+          "soLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.23/libcustom-types.so",
+          "debugSoLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.23/debug_libcustom-types.so",
+          "overrideSoName": "libcustom-types.so",
+          "modLink": "https://github.com/sc2ad/Il2CppQuestTypePatching/releases/download/v0.15.23/CustomTypes.qmod",
+          "branchName": "version-v0.15.23"
+        }
+      },
+      "version": "0.15.23"
+    },
+    {
+      "dependency": {
         "id": "paper",
-        "versionRange": "^1.2.9",
+        "versionRange": "=1.2.9",
         "additionalData": {
           "soLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.9/libpaperlog.so",
           "debugSoLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.9/debug_libpaperlog.so",
@@ -121,8 +135,18 @@
     },
     {
       "dependency": {
+        "id": "libil2cpp",
+        "versionRange": "=0.2.3",
+        "additionalData": {
+          "headersOnly": true
+        }
+      },
+      "version": "0.2.3"
+    },
+    {
+      "dependency": {
         "id": "gif-lib",
-        "versionRange": "^5.2.2",
+        "versionRange": "=5.2.2",
         "additionalData": {
           "staticLinking": true,
           "soLink": "https://github.com/RedBrumbler/gif-lib-QPM/releases/download/v5.2.2/libgif-lib.a",
@@ -136,7 +160,7 @@
     {
       "dependency": {
         "id": "beatsaber-hook",
-        "versionRange": "^3.14.0",
+        "versionRange": "=3.14.0",
         "additionalData": {
           "soLink": "https://github.com/sc2ad/beatsaber-hook/releases/download/v3.14.0/libbeatsaber-hook_3_14_0.so",
           "debugSoLink": "https://github.com/sc2ad/beatsaber-hook/releases/download/v3.14.0/debug_libbeatsaber-hook_3_14_0.so",
@@ -148,20 +172,20 @@
     {
       "dependency": {
         "id": "codegen",
-        "versionRange": "^0.32.0",
+        "versionRange": "=0.33.0",
         "additionalData": {
-          "soLink": "https://github.com/sc2ad/BeatSaber-Quest-Codegen/releases/download/v0.32.0/libcodegen.so",
+          "soLink": "https://github.com/sc2ad/BeatSaber-Quest-Codegen/releases/download/v0.33.0/libcodegen.so",
           "overrideSoName": "libcodegen.so",
-          "modLink": "https://github.com/sc2ad/BeatSaber-Quest-Codegen/releases/download/v0.32.0/Codegen.qmod",
-          "branchName": "version-v0.32.0"
+          "modLink": "https://github.com/sc2ad/BeatSaber-Quest-Codegen/releases/download/v0.33.0/Codegen.qmod",
+          "branchName": "version-v0.33.0"
         }
       },
-      "version": "0.32.0"
+      "version": "0.33.0"
     },
     {
       "dependency": {
         "id": "fmt",
-        "versionRange": "^9.0.0",
+        "versionRange": "=9.0.0",
         "additionalData": {
           "headersOnly": true,
           "branchName": "version-v9.0.0",
@@ -180,7 +204,7 @@
     {
       "dependency": {
         "id": "tinyxml2",
-        "versionRange": "^9.0.5",
+        "versionRange": "=9.0.5",
         "additionalData": {
           "soLink": "https://github.com/MillzyDev/NDK-tinyxml2/releases/download/v9.0.5/libtinyxml2.so",
           "debugSoLink": "https://github.com/MillzyDev/NDK-tinyxml2/releases/download/v9.0.5/debug_libtinyxml2.so",
